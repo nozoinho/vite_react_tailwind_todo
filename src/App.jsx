@@ -4,8 +4,9 @@ import TodoCreate from "./components/TodoCreate";
 import TodoList from "./components/TodoList";
 import TodoFilter from "./components/TodoFilter";
 import { useState } from "react";
+import { useEffect } from "react";
 
-const initialStateTodos = [
+/*const initialStateTodos = [
   {
     id: 1,
     title: "Complete online Javascript bluuweb Curse",
@@ -31,10 +32,17 @@ const initialStateTodos = [
     title: "Complete todo app on Frontend Mentor",
     completed: false,
   },
-];
+];*/
+
+const initialStateTodos = JSON.parse(localStorage.getItem("todos")) || [];
 
 const App = () => {
   const [todos, setTodos] = useState(initialStateTodos);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    //console.log(todos);
+  }, [todos]);
 
   const createTodo = (title) => {
     const newTodo = {
@@ -83,7 +91,9 @@ const App = () => {
   return (
     <div
       className="min-h-screen bg-gray-300 bg-[url('./assets/images/bg-mobile-light.jpg')]
+      md:bg-[url('./assets/images/bg-desktop-light.jpg')]
       dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] 
+      md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')] 
       bg-contain
       bg-no-repeat
       dark:bg-gray-900
@@ -91,7 +101,7 @@ const App = () => {
     >
       <Header />
 
-      <main className="container mx-auto mt-8 px-4 ">
+      <main className="container mx-auto mt-8 px-4 md:max-w-xl">
         <TodoCreate createTodo={createTodo} />
 
         {/* TodoList (TodoItem) TodoUpdate & TodoDelete */}
